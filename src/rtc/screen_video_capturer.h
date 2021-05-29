@@ -24,7 +24,6 @@ class ScreenVideoCapturer : public ScalableVideoTrackSource,
   ~ScreenVideoCapturer();
 
  private:
-  static void CaptureThread(void* obj);
   bool CaptureProcess();
   static webrtc::DesktopCaptureOptions CreateDesktopCaptureOptions();
   void OnCaptureResult(webrtc::DesktopCapturer::Result result,
@@ -38,7 +37,7 @@ class ScreenVideoCapturer : public ScalableVideoTrackSource,
   int max_cpu_consumption_percentage_;
   webrtc::DesktopSize previous_frame_size_;
   std::unique_ptr<webrtc::DesktopFrame> output_frame_;
-  std::unique_ptr<rtc::PlatformThread> capture_thread_;
+  rtc::PlatformThread capture_thread_;
   std::unique_ptr<webrtc::DesktopCapturer> capturer_;
   std::atomic<bool> quit_;
 };

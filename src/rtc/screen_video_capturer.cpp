@@ -66,19 +66,21 @@ ScreenVideoCapturer::ScreenVideoCapturer(
   }
 
   capturer_->Start(this);
-  if (!capture_thread_) {
-    capture_thread_.reset(
-        new rtc::PlatformThread(ScreenVideoCapturer::CaptureThread, this,
-                                "ScreenCaptureThread", rtc::kHighPriority));
-    capture_thread_->Start();
+  if (capture_thread_.empty()) {
+    capture_thread_ = rtc::PlatformThread::SpawnJoinable(
+        [this] {
+          while (CaptureProcess()) {
+          }
+        },
+        "ScreenCaptureThread",
+        rtc::ThreadAttributes().SetPriority(rtc::ThreadPriority::kHigh));
   }
 }
 
 ScreenVideoCapturer::~ScreenVideoCapturer() {
-  if (capture_thread_) {
+  if (!capture_thread_.empty()) {
     quit_ = true;
-    capture_thread_->Stop();
-    capture_thread_.reset();
+    capture_thread_.Finalize();
   }
   output_frame_.reset();
   previous_frame_size_.set(0, 0);
@@ -98,12 +100,6 @@ ScreenVideoCapturer::CreateDesktopCaptureOptions() {
 #endif
 
   return options;
-}
-
-void ScreenVideoCapturer::CaptureThread(void* obj) {
-  auto self = static_cast<ScreenVideoCapturer*>(obj);
-  while (self->CaptureProcess()) {
-  }
 }
 
 bool ScreenVideoCapturer::CaptureProcess() {
