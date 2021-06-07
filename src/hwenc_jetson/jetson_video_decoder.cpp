@@ -158,10 +158,7 @@ int32_t JetsonVideoDecoder::JetsonConfigure() {
   if (capture_loop_.empty()) {
     eos_ = false;
     capture_loop_ = rtc::PlatformThread::SpawnJoinable(
-        [this] {
-          CaptureLoop();
-        },
-        "CaptureLoop",
+        [this] { CaptureLoop(); }, "CaptureLoop",
         rtc::ThreadAttributes().SetPriority(rtc::ThreadPriority::kHigh));
   }
 
@@ -246,7 +243,8 @@ void JetsonVideoDecoder::CaptureLoop() {
     SetCapture();
   }
 
-  while (!(eos_ || got_error_ || decoder_->isInError() || capture_loop_.empty())) {
+  while (
+      !(eos_ || got_error_ || decoder_->isInError() || capture_loop_.empty())) {
     ret = decoder_->dqEvent(event, false);
     if (ret == 0 && event.type == V4L2_EVENT_RESOLUTION_CHANGE) {
       SetCapture();

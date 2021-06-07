@@ -81,10 +81,10 @@ MomoVideoDecoderFactory::GetSupportedFormats() const {
 
   // H264
   std::vector<webrtc::SdpVideoFormat> h264_codecs = {
-      webrtc::CreateH264Format(webrtc::H264::kProfileBaseline, webrtc::H264::kLevel3_1,
-                               "1"),
-      webrtc::CreateH264Format(webrtc::H264::kProfileBaseline, webrtc::H264::kLevel3_1,
-                               "0"),
+      webrtc::CreateH264Format(webrtc::H264::kProfileBaseline,
+                               webrtc::H264::kLevel3_1, "1"),
+      webrtc::CreateH264Format(webrtc::H264::kProfileBaseline,
+                               webrtc::H264::kLevel3_1, "0"),
       webrtc::CreateH264Format(webrtc::H264::kProfileConstrainedBaseline,
                                webrtc::H264::kLevel3_1, "1"),
       webrtc::CreateH264Format(webrtc::H264::kProfileConstrainedBaseline,
