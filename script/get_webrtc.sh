@@ -15,7 +15,8 @@ SOURCE_DIR=$4
 set -ex
 
 if [ ! -e $SOURCE_DIR/webrtc.${PACKAGE_NAME}.${WEBRTC_BUILD_VERSION}.tar.gz ]; then
-  curl -Lo $SOURCE_DIR/webrtc.${PACKAGE_NAME}.${WEBRTC_BUILD_VERSION}.tar.gz https://github.com/shiguredo-webrtc-build/webrtc-build/releases/download/m${WEBRTC_BUILD_VERSION}/webrtc.${PACKAGE_NAME}.tar.gz
+  # https://github.com/shiguredo-webrtc-build/webrtc-build/actions/runs/1201140003
+  curl -Lo $SOURCE_DIR/webrtc.${PACKAGE_NAME}.${WEBRTC_BUILD_VERSION}.tar.gz https://github.com/shiguredo-webrtc-build/webrtc-build/suites/3682956537/artifacts/89734655
 fi
 
 pushd $OUTPUT_DIR
